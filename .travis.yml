@@ -11,7 +11,11 @@ env:
   - TRAVIS: true
 
 services:
-- docker
+  - docker
+
+install:
+  - pip install -r requirements.txt
+  - pip install -r requirements_dev.txt
 
 # build for all pushes, as well as PRs coming from forks
 # this ensures that the pipeline is triggered for internal pushes,
@@ -54,4 +58,4 @@ jobs:
         - echo "${DOCKER_TOKEN}" | docker login -u "${DOCKER_USER}" --password-stdin
         - docker push "${DOCKER_REPO_NAME}:${DOCKER_TAG}"
         - if [ "$TRAVIS_BRANCH" = "dev" ]; then docker push "${DOCKER_REPO_NAME}:latest"; fi
-        - rm ${HOME}/.docker/config.json  # delete token
+        - rm ${HOME}/.docker/config.json # delete token
